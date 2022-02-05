@@ -100,6 +100,10 @@ use -L <port>:<Destination IP>:<port> for a forward tunnel
 use -J <user>@<host>:<port> to specify a Jump Host that you will SSH through, a forward tunnel is not needed if using the -J option
 </details>
 <details>
+  <summary>Bonus Tip</summary>
+you can use some sshuttle here as well, sshuttle -h is your friend.
+</details>
+<details>
   <summary>Solution</summary>
 ssh -p 2222 bastion@<host> -o StrictHostKeyChecking=no -L2223:10.212.243.13:22
 
