@@ -26,7 +26,11 @@ SSH Port: 2222
 run a 'netstat -ant' or 'ss -nt' before and after you establish each connection to understand what ssh network connections that you created.  Also run a 'ps -ef' to understand what processes are running.
 <details>
   <summary>Hint</summary>
+
+```
 use -p <port> to specify a non-standard port
+```
+
 </details>
 <details>
   <summary>Tip</summary>
@@ -49,11 +53,19 @@ Browse to http://10.199.2.120/
 
 <details>
   <summary>Hint</summary>
+
+```
 use -L <port>:<Destination IP>:<port> for a forward tunnel
+```
+
 </details>
 <details>
   <summary>Tip</summary>
+
+```
 use -D <port> to create a dynamic SOCKS5 proxy
+```
+
 </details>
 <details>
   <summary>Solution</summary>
@@ -78,6 +90,7 @@ specify a SOCKS5 proxy in your web browser.  FoxyProxy is a popular firefox plug
 
 
 ### pivot-1 - flag 2
+
 Just like with the web challenge create a forward tunnel to the pivot server
 
 IP: 10.212.243.13
@@ -88,11 +101,19 @@ Pass: fightclub
 
 <details>
   <summary>Hint</summary>
+
+```
 use -L <port>:<Destination IP>:<port> for a forward tunnel
+```
+
 </details>
 <details>
   <summary>Bonus Tip</summary>
+
+```
 use -J <user>@<host>:<port> to specify a Jump Host that you will SSH through, a forward tunnel is not needed if using the -J option
+```
+
 </details>
 <details>
   <summary>Bonus Tip</summary>
@@ -100,6 +121,8 @@ you can use some sshuttle here as well, sshuttle -h is your friend.
 </details>
 <details>
   <summary>Solution</summary>
+
+```
 ssh -p 2222 bastion@<host> -o StrictHostKeyChecking=no -L2223:10.212.243.13:22
 
 ssh -p 2223 tyler@127.0.0.1 -o StrictHostKeyChecking=no
@@ -107,6 +130,7 @@ ssh -p 2223 tyler@127.0.0.1 -o StrictHostKeyChecking=no
 OR
 
 ssh -J bastion@<host>:2222 tyler@10.212.243.13 
+```
 
 </details>
 
@@ -122,14 +146,24 @@ NOTE: IT IS THE SAME ON EACH PORT ONLY USE ONE PORT AND REMOVE YOUR TUNNEL WHEN 
 
 <details>
   <summary>Hint</summary>
+
+```
 use -R <Remote Host IP>:<port>:<Local Destination IP>:<port> for a reverse tunnel
+```
+
 </details>
 <details>
   <summary>Bonus Tip</summary>
+
+```
 use -J <user>@<host>:<port> to specify a Jump Host that you will SSH through, a forward tunnel is not needed if using the -J option
+```
+
 </details>
 <details>
   <summary>Solution</summary>
+
+```
 ssh -p 2222 bastion@<host> -o StrictHostKeyChecking=no -L2223:10.212.243.13:22
 
 ssh -p 2223 tyler@127.0.0.1 -o StrictHostKeyChecking=no -R10.112.3.199:58671:127.0.0.1:58671
@@ -141,6 +175,8 @@ OR
 ssh -J bastion@<host>:2222 tyler@10.212.243.13 -R10.112.3.199:58671:127.0.0.1:58671
 
 nc -klvp 58671
+```
+
 </details>
 
 
@@ -152,11 +188,19 @@ Connect to ip: 10.112.3.88 port: 7000, a beacon awaits you, but you have to be q
 
 <details>
   <summary>Hint</summary>
+
+```
 use -R <Remote Host IP>:<port>:<Local Destination IP>:<port> for a reverse tunnel
+```
+
 </details>
 <details>
   <summary>Bonus Tip</summary>
+
+```
 You can use -D <port> again for dynamic
+```
+
 </details>
 <details>
   <summary>Solution</summary>
@@ -204,7 +248,11 @@ pass: squanderedpotential
 
 <details>
   <summary>Hint 1</summary>
+
+```
 You can use -D <port> again for dynamic
+```
+
 </details>
 <details>
   <summary>Hint 2</summary>
@@ -212,6 +260,8 @@ proxychains is very useful for using tools through tunnels that are not designed
 </details>
 <details>
   <summary>Solution</summary>
+
+```
 ssh -p 2222 bastion@<host> -o StrictHostKeyChecking=no -L2223:10.212.243.13:22
 
 ssh -p 2223 tyler@127.0.0.1 -o StrictHostKeyChecking=no -D9050
@@ -220,10 +270,13 @@ ssh -p 2223 tyler@127.0.0.1 -o StrictHostKeyChecking=no -D9050
 proxychains nmap -Pn -sT -p- 10.112.3.207
 
 proxychains ftp 10.112.3.207 53121
+```
 
 </details>
 <details>
   <summary>Spoiler</summary>
+
+```
 proxychains ftp 10.112.3.207 53121
 
 dir
@@ -231,6 +284,8 @@ dir
 get id_ed25519
 
 NOTE: YOU CAN NOW USE THE KEY FOR BASTION PIVOT-1 and PIVOT-2
+```
+
 </details>
 
 
@@ -274,6 +329,7 @@ ssh -F ssh_config pivot-2
 <details>
   <summary>Spoiler - save this for later</summary>
 
+```
 We are taking the '-J <user>@<host>:<port>' jump host and leveling it up with '-F ssh_config'.
 
 These config options should look familiar with what we have been doing on the command line.  In addition to what we had previously done on the command line, we are adding ProxyJump option.  The ProxyJump option specifies that in order to connect to this host you must use this other host to connect to it.  Notice in the config we are chaing the hosts, pivot-2 needs to connect via pivot-1 and pivot-1 needs to connect via bastion.
@@ -281,6 +337,8 @@ These config options should look familiar with what we have been doing on the co
 You may need to update 'IdentityFile id_ed25519' if the private key is not in your current directory.
 
 see the file ssh_config in the repo.
+```
+
 </details>
 
 
