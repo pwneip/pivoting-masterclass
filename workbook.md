@@ -2,47 +2,8 @@
 ## Lab Hosts
 167.172.227.234
 
-68.183.145.71 
-
-167.71.88.196 
-
-165.22.40.199 
-
-68.183.148.43 
-
-157.245.12.197 
-
-157.245.15.122 
-
-167.71.254.22 
-
-157.245.4.40 
-
-134.209.33.126 
-
-159.65.250.65 
-
-161.35.143.183 
-
-159.65.248.117 
-
-167.99.123.228 
-
-164.90.133.36 
-
-142.93.179.207 
-
-167.172.250.153
-
-164.90.133.50 
-
-159.65.180.184 
-
-161.35.131.160 
-
-
-
 ## workshop progress tracker
+
 https://workshop.threatsims.com
 
 
@@ -53,6 +14,7 @@ https://workshop.threatsims.com
 ## Let's Tunnel
 
 ### bastion host - flag 0
+
 SSH to the bastion host on a non-standard port.  Your bastion host is the one assigned to you from the above list of lab hosts.  Throughout this workshop using 'man ssh' and google are very useful.
 
 User: bastion
@@ -72,10 +34,15 @@ use -o StrictHostKeyChecking=no to streamline logging in, but this is bad opsec 
 </details>
 <details>
   <summary>Solution</summary>
+
+```
 ssh -p 2222 bastion@<host> -o StrictHostKeyChecking=no
+```
+
 </details>
 
 ### Web - flag 1
+
 Since we cannot browse directly to this website as it is on a private IPv4 address we must create a forward tunnel to it.
 
 Browse to http://10.199.2.120/
@@ -90,6 +57,8 @@ use -D <port> to create a dynamic SOCKS5 proxy
 </details>
 <details>
   <summary>Solution</summary>
+
+```
 ssh -p 2222 bastion@<host> -o StrictHostKeyChecking=no -L8081:10.199.2.120:80
 
 curl 127.0.0.1:8081
@@ -103,6 +72,8 @@ curl -x socks5h://localhost:9050 http://10.199.2.120
 OR
 
 specify a SOCKS5 proxy in your web browser.  FoxyProxy is a popular firefox plugin to enable quick swithcing between proxies.
+```
+
 </details>
 
 
@@ -285,6 +256,8 @@ do not execute remote commands -N
 
 <details>
   <summary>Solution</summary>
+
+```
 ssh -p 2222 -i id_ed25519 bastion@<host> -o StrictHostKeyChecking=no -L2223:10.212.243.13:22 -fN
 
 ssh -p 2223 -i id_ed25519 tyler@127.0.0.1 -o StrictHostKeyChecking=no -L2224:10.112.3.12:22 -fN
@@ -294,6 +267,7 @@ ssh -p 2224 -i id_ed25519 paulson@127.0.0.1 -o StrictHostKeyChecking=no
 OR
 
 ssh -F ssh_config pivot-2
+```
 
 </details>
 
@@ -328,19 +302,25 @@ socat is available on pivot-2.  Your tunnels may fail without error if you creat
   <summary>Solution</summary>
 tunnel to point to pivot-2 as GatewayPorts Tunneling and TCP forwarding are all disabled
 
+```
 ssh -F ssh_config pivot-1 -L9161:10.112.3.12:9161
+```
 
 ssh to pivot-2
 
+```
 ssh -F ssh_config pivot-2
 
 socat TCP4-LISTEN:9161,reuseaddr,fork UDP:10.24.13.161:161 &
+```
 
 locally
 
+```
 socat -T15 udp4-recvfrom:161,reuseaddr,fork tcp:localhost:9161 &
 
 snmpwalk -v 2c -c public localhost
+```
 
 </details>
 
@@ -369,17 +349,23 @@ socat is available on pivot-2.  Your tunnels may fail without error if you creat
   <summary>Solution</summary>
 tunnel to point to pivot-2 as GatewayPorts Tunneling and TCP forwarding are all disabled
 
+```
 ssh -F ssh_config pivot-1 -L8082:10.112.3.12:8082
+```
 
 ssh to pivot-2
 
 ssh -F ssh_config pivot-2
 
+```
 socat TCP-LISTEN:8082,reuseaddr,fork TCP6:[2a02:1b8:b010:9010:1::86]:80 &
+```
 
 locally
 
+```
 curl 127.0.0.1:8082
+```
 
 </details>
 
