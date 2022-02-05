@@ -100,6 +100,9 @@ ssh -p 2222 bastion@<host> -o StrictHostKeyChecking=no -D9050
 
 curl -x socks5h://localhost:9050 http://10.199.2.120
 
+OR
+
+specify a SOCKS5 proxy in your web browser.  FoxyProxy is a popular firefox plugin to enable quick swithcing between proxies.
 </details>
 
 
