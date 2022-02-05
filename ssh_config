@@ -1,0 +1,30 @@
+Host *
+    ServerAliveCountMax 4
+    ServerAliveInterval 15
+    ForwardAgent yes # So that the keys in your localmachine are used across hops
+Host bastion
+    HostName 167.172.239.177
+    User bastion
+    Port 2222
+    IdentityFile id_ed25519
+    LocalForward 127.0.0.1:8081 10.199.2.120:80
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+Host pivot-1
+    HostName 10.212.243.13
+    User tyler
+    Port 22
+    IdentityFile id_ed25519
+    ProxyJump bastion
+    RemoteForward 10.112.3.199:58671 127.0.0.1:58671
+    DynamicForward 127.0.0.1:9050
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null
+Host pivot-2
+    HostName 10.112.3.12
+    User paulson
+    port 22
+    IdentityFile id_ed25519
+    ProxyJump pivot-1
+    StrictHostKeyChecking no
+    UserKnownHostsFile /dev/null

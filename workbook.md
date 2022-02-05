@@ -272,38 +272,8 @@ We are taking the '-J <user>@<host>:<port>' jump host and leveling it up with '-
 These config options should look familiar with what we have been doing on the command line.  In addition to what we had previously done on the command line, we are adding ProxyJump option.  The ProxyJump option specifies that in order to connect to this host you must use this other host to connect to it.  Notice in the config we are chaing the hosts, pivot-2 needs to connect via pivot-1 and pivot-1 needs to connect via bastion.
 
 You may need to update 'IdentityFile id_ed25519' if the private key is not in your current directory.
-```
-Host *
-    ServerAliveCountMax 4
-    ServerAliveInterval 15
-    ForwardAgent yes # So that the keys in your localmachine are used across hops
-Host bastion
-    HostName 167.172.239.177
-    User bastion
-    Port 2222
-    IdentityFile id_ed25519
-    LocalForward 127.0.0.1:8081 10.199.2.120:80
-    StrictHostKeyChecking no
-    UserKnownHostsFile /dev/null
-Host pivot-1
-    HostName 10.212.243.13
-    User tyler
-    Port 22
-    IdentityFile id_ed25519
-    ProxyJump bastion
-    RemoteForward 10.112.3.199:58671 127.0.0.1:58671
-    DynamicForward 127.0.0.1:9050
-    StrictHostKeyChecking no
-    UserKnownHostsFile /dev/null
-Host pivot-2
-    HostName 10.112.3.12
-    User paulson
-    port 22
-    IdentityFile id_ed25519
-    ProxyJump pivot-1
-    StrictHostKeyChecking no
-    UserKnownHostsFile /dev/null
-```
+
+see the file ssh_config in the repo.
 </details>
 
 
