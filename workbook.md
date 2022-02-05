@@ -190,19 +190,19 @@ You can use -D <port> again for dynamic
 <details>
   <summary>Solution</summary>
 Forward Tunnels
-
+```
 ssh -p 2222 bastion@<host> -o StrictHostKeyChecking=no -L2223:10.212.243.13:22
 
-ssh -p 2223 tyler@127.0.0.1 -o StrictHostKeyChecking=no -D9050 -L7000:10.112.3.88:7000
+ssh -p 2223 tyler@127.0.0.1 -o StrictHostKeyChecking=no -L7000:10.112.3.88:7000
 
 nc 127.0.0.1 7000
-
+```
 Dynamic tunnels
-
+```
 ssh -p 2223 tyler@127.0.0.1 -o StrictHostKeyChecking=no -D9050
 
 ncat --proxy 127.0.0.1:9050 --proxy-type socks5 10.112.3.88 7000
-
+```
 
 On pivot 1
 
