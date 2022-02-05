@@ -307,7 +307,6 @@ Host pivot-2
 </details>
 
 
-
 ### snmpd - flag 7
 If you haven't noticed so far, all of our traffic has been TCP and IPv4.  Well that is gonna change, let's do some UDP.  You can't just push UDP traffic into a TCP tunnel, you need to use a tool to change it from UDP to TCP.  Don't forget that you need to change it back to UDP before sending to the target.
 
