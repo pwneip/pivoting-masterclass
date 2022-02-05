@@ -190,6 +190,7 @@ You can use -D <port> again for dynamic
 <details>
   <summary>Solution</summary>
 Forward Tunnels
+
 ```
 ssh -p 2222 bastion@<host> -o StrictHostKeyChecking=no -L2223:10.212.243.13:22
 
