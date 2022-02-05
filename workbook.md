@@ -73,11 +73,15 @@ use -D <port> to create a dynamic SOCKS5 proxy
 ```
 ssh -p 2222 bastion@<host> -o StrictHostKeyChecking=no -L8081:10.199.2.120:80
 
+locally
+
 curl 127.0.0.1:8081
 
 OR
 
 ssh -p 2222 bastion@<host> -o StrictHostKeyChecking=no -D9050
+
+locally
 
 curl -x socks5h://localhost:9050 http://10.199.2.120
 
