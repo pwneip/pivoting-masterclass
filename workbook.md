@@ -250,7 +250,7 @@ background the ssh connection with -f
 
 do not execute remote commands -N
 </details>
-<details>
+
 <details>
   <summary>Solution</summary>
 ssh -p 2222 -i id_ed25519 bastion@<host> -o StrictHostKeyChecking=no -L2223:10.212.243.13:22 -fN
@@ -264,6 +264,7 @@ OR
 ssh -F ssh_config pivot-2
 
 </details>
+
 <details>
   <summary>Spoiler - save this for later</summary>
 
